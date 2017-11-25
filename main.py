@@ -11,4 +11,10 @@ parser.add_argument('--filter', help='The filter that you want to run', default=
 
 args = parser.parse_args()
 def main():
-   pass
+   k = K()
+   k.simulate()
+   k.kalman()
+
+
+if __name__=='__main__':
+   main()
