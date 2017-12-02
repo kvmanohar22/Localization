@@ -16,8 +16,13 @@ $ python main.py --filter Kalman
 $ python main.py --help
 ```
 
-## Results
-### Running Kalman filter on 1D
+## Contents
+
+- [Kalman Filter](#kalman)
+- [Particle Filter](#particle)
+
+<a name='kalman'></a>
+### Kalman Filter
 ![](imgs/original_path.png)
 **Fig 1**: Original path of motion
 
@@ -26,6 +31,19 @@ $ python main.py --help
 
 ![](imgs/distribution_comparison.gif)
 **Fig 3**: Comparison of data distribution as a function of time of flight of motion. 
+
+<a name='particle'></a>
+### Particle Filter
+
+![](imgs/particle_1.png)
+**Fig 1** Particle filter with particles of size 10
+
+![](imgs/particle_2.png)
+**Fig 2** Particle filter with particles of size 100
+
+![](imgs/particle_3.png)
+**Fig 3** Particle filter with particles of size 500
+
 
 ## To-do
 - [x] Kalman Filter

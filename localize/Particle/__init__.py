@@ -13,7 +13,7 @@ class Particle(object):
       self.X_prev = self.X_0
       self.X = self.X_0
       self.N = 100 # Number of particles
-      self.T = 100 # Duration of observation
+      self.T = 500 # Duration of observation
       self.R = 1 # Covariance of state update
       self.Q = 1 # Covariance of measurement
       self.R_0 = 2 # Variance of the initial estimate
@@ -21,7 +21,8 @@ class Particle(object):
       self.Xt =  np.zeros(self.N).astype('float32') # set of particles at any time t
       self.Zt =  np.zeros(self.N).astype('float32') # set of observations of particles at any time t
       self.W  =  np.zeros(self.N).astype('float32') # Weights of the particles (unnormalized)
-      self.X_est  =  np.zeros(self.T).astype('float32') # Weights of the particles (unnormalized)
+      self.X_est = np.zeros(self.T).astype('float32') # Weights of the particles (unnormalized)
+      self.X_act = np.zeros(self.T).astype('float32')
 
 
    def simulate(self):
@@ -47,9 +48,10 @@ class Particle(object):
       w = lambda z, zt : (1./np.sqrt(2*np.pi*self.Q))*np.exp(-((z-zt)**2)/(2*self.Q))
 
       for t in xrange(self.T):
-         sys.stdout.write('Simulating the particles at t=%d\n' % (t+1))
+         # sys.stdout.write('Simulating the particles at t=%d\n' % (t+1))
          # Actual Position of the robot
          self.X_prev = self.X
+         self.X_act[t] = self.X_prev
          self.X = f(self.X, t)
          # Measurement taken of the robot
          self.Z = z(self.X)
@@ -69,8 +71,8 @@ class Particle(object):
          # Normalize the weights
          self.W /= np.sum(self.W)
 
-         sys.stdout.write('True measurement: %d\n' % (self.Z))
-         sys.stdout.write('True position: %d\n' % (self.X))
+         # sys.stdout.write('True measurement: %d\n' % (self.Z))
+         # sys.stdout.write('True position: %d\n' % (self.X))
          plt.subplot(121)
          plt.xlabel('Weight Magnitude: w[i]')
          plt.ylabel('Position values of particles: Xt[i]')
@@ -85,7 +87,7 @@ class Particle(object):
          plt.scatter(0, self.Z, s=100, c='r', label='True Measurement')
          plt.title('Measurement updates')
          plt.legend()
-         plt.show()
+         # plt.show()
 
          plt.subplot(131)
          plt.scatter(np.zeros(len(self.Xt)), self.Xt, s=3, c='k', label='Particles at t=dt-1')
@@ -98,6 +100,7 @@ class Particle(object):
             self.X_P[r] = self.Xt[idx]
          self.X_est[t] = np.mean(self.X_P)
 
+
          plt.subplot(132)
          plt.scatter(self.W, self.Xt, s=3, c='k') #label='Estimated position before resampling at t=dt')
          plt.scatter(0, self.X, s=100, c='g', label='True Position at t')
@@ -108,5 +111,14 @@ class Particle(object):
          plt.scatter(0, self.X_est[t], s=100, c='r', label='Estimated position at t')
          plt.scatter(0, self.X, s=100, c='g', label='True position at t')
          plt.legend()
+         # plt.show()
 
-         plt.show()
+      # Plot the final path
+      plt.figure()
+      plt.plot(xrange(self.T), self.X_act, label='Actual Path', c='g', ms=30)
+      plt.plot(xrange(self.T), self.X_est, label='Estimated Path', c='r', ms=30)
+      plt.xlabel('Time (sec)')
+      plt.ylabel('Position (meters)')
+      plt.title('Final Path Comparison')
+      plt.legend()
+      plt.show()
