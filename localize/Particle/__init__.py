@@ -12,8 +12,8 @@ class Particle(object):
       self.X_0 = 0.1 # The initial true position
       self.X_prev = self.X_0
       self.X = self.X_0
-      self.N = 100 # Number of particles
-      self.T = 500 # Duration of observation
+      self.N = 500 # Number of particles
+      self.T = 100 # Duration of observation
       self.R = 1 # Covariance of state update
       self.Q = 1 # Covariance of measurement
       self.R_0 = 2 # Variance of the initial estimate
