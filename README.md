@@ -29,7 +29,7 @@ $ python main.py --help
 
 ## To-do
 - [x] Kalman Filter
-- [ ] Particle Filter
+- [x] Particle Filter
 - [ ] Histogram Filter
 - [ ] Benchmarking the filters
 

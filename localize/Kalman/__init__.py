@@ -70,7 +70,7 @@ class Kalman(object):
          plt.plot(new_range, self.X_msr, marker='o', c='k', ms=.5, label='Measured position')
          plt.pause(0.0001)
 
-   def kalman(self):
+   def run(self):
       print 'Implementing Kalman filter...'
       plt.figure()
       plt.xlim([0, 120])

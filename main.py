@@ -11,9 +11,16 @@ parser.add_argument('--filter', help='The filter that you want to run', default=
 
 args = parser.parse_args()
 def main():
-   k = K()
-   k.simulate()
-   k.kalman()
+   if args.filter == "Kalman":
+      filter = K()
+   elif args.filter == "Particle":
+      filter = P()
+   else:
+      raise ValueError("No such filter is available!")
+      return
+
+   filter.simulate()
+   filter.run()
 
 
 if __name__=='__main__':
